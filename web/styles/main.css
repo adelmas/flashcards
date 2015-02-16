@@ -1,0 +1,157 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Divs */
+#flashcards_deck {
+  display: none;
+}
+
+.panel {
+  margin: 10px;
+  background-color: #F0F0F0;
+  border: 1px solid #CCCCCC;
+  border-radius: 3px;
+  padding: 10px;
+  max-width: 415px;
+  padding-bottom: 5px;
+}
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  padding: 10px;
+  border-radius: 5px;
+  min-height: 50px;
+  font-size: 20px;
+}
+.back {
+  color: #6B8E23;
+}
+.foot {
+  font-size: 13px;
+}
+.dInfos, .dCards {
+  color: #7F7F7F;
+  transition: height 0.5s ease;
+  overflow: hidden;
+  font-size: 12px;
+}
+.dLinks {
+  text-align: right;
+  font-size: 12px;
+}
+.panel .list_thumb {
+  border-bottom: 1px solid #CFCFCF;
+}
+.panel .list_thumb:last-child {
+  border: 0;
+}
+
+.list_thumb .right {
+  float: right;
+}
+
+#dProgress {
+  height: 10px;
+  background-color: #CCCCCC;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border: 1px solid #AAAAAA;
+  box-sizing:border-box;
+}
+.progressBar {
+  height: 100%;
+  display: block;
+  border-radius: 5px;
+  background-color: #0088FF;
+  background: /* http://www.css3create.com/Barre-de-progression-avec-l-element-HTML5-progress */
+      -moz-repeating-linear-gradient(
+        45deg, 
+        rgba(255,255,255,.2) 0,
+        rgba(255,255,255,.2) 10px, 
+        rgba(255,255,255,0) 10px,
+        rgba(255,255,255,0) 20px
+      ),
+      -moz-linear-gradient(
+        rgba(255,255,255,.1) 50%,
+        rgba(255,255,255,0) 60%
+      ),
+      #008FFF;
+    background: 
+      repeating-linear-gradient(
+        45deg, 
+        rgba(255,255,255,.2) 0,
+        rgba(255,255,255,.2) 10px, 
+        rgba(255,255,255,0) 10px,
+        rgba(255,255,255,0) 20px
+      ),
+      linear-gradient(
+        rgba(255,255,255,.1) 50%,
+        rgba(255,255,255,0) 60%
+      ),
+      #008FFF;
+}
+
+/* Buttons */
+.button {
+  display: inline-block;
+  background-color: #FFFFFF;
+  border: 1px solid #C0C0C0;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.button:active {
+  background-color: #F0F0F0;
+}
+.button:hover {
+  border: 1px solid #909090;
+}
+
+img {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  vertical-align: middle;
+}
+a:hover {
+  text-decoration: underline; 
+}
+.infos, .right {
+  color: #7F7F7F;
+}
+.infos:hover, .right:hover {
+  text-decoration: none;
+  color: black;
+}
+.dLinks a {
+  margin-right: 10px;
+}
+.dLinks a:last-child {
+  margin-right: 0px;
+}
+ .dInfos a {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-right: 1px solid #7F7F7F;
+ }
+ .dInfos a:last-child {
+  border-right: none;
+ }
