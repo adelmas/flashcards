@@ -1,7 +1,7 @@
 Flashcard app
 --------------
 
-A Dart implementation of a spaced repartition flashcard app.
+A Dart implementation of a spaced repetition flashcard app.
 
 ### Algorithm
 Based on the Leitner algorithm (http://en.wikipedia.org/wiki/Leitner_system).

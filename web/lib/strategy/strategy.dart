@@ -15,6 +15,7 @@ abstract class Strategy {
   Map get map => _map;
   set map(Map map) => _map = map;
   int get nbCompletedCards;
+  int get nbCards;
   
   Map toJsonMap();
   void fromJsonMap(Map);

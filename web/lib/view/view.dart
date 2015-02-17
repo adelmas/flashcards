@@ -3,6 +3,9 @@ library view;
 import 'dart:html';
 import '../card/card.dart';
 import '../manager/manager.dart';
+import 'package:observe/observe.dart';
+@MirrorsUsed(symbols: 'manager', override: '*') /* Saves ~200Ko... */
+import 'dart:mirrors';
 
 part 'button.dart';
 part 'progress.dart';
@@ -23,6 +26,11 @@ class View {
       print("Root div not found in the html page.");
       return;
     }
+    if (_manager == null) {
+      print("manager = null");
+      return;
+    }
+    
     /* Divs */
     _dPanel = new DivElement();
     _dPanel.classes.add("panel");
@@ -68,11 +76,6 @@ class View {
     _dFoot.classes.add("foot");
     _dPanel.children.add(_dFoot);
     _dFoot.text = _manager.deck.name + " (" +_manager.nbCards.toString() + " cards)";
-    
-    /* /!\ NOT WORKING ON SOME ANDROID DEVICES */
-    /*_progress = new ProgressElement()
-    ..max = 100;*/
-    //_dProgress.children.add(_progress); 
     
     _progress = new Progress(_dPanel, "progressBar", "dProgress");
     
@@ -139,7 +142,7 @@ class View {
     _dInfos.innerHtml = "<a href=\"github.com/adelmas/\">GitHub</a> <a href=\"contact.php\">Signaler une erreur</a>";
     
     /* Observer */
-    _manager.changes.listen((evt) => display(evt));
+    _manager.changes.listen((List<ChangeRecord> evt) => update(evt));
     
     /* Responsive */
     if (responsive) {
@@ -185,16 +188,23 @@ class View {
   /**
    * Displays current card's front text
    */
-  void display(var evt) {
-    _progress.value = _manager.nbCompletedCards*100/_manager.nbCards;
-    if (_manager.currentCard == null) {
-      _dCard.innerHtml = "<b>Congratulations !</b><br />";
-      return;
+  void update(List<ChangeRecord> evt) {
+    PropertyChangeRecord rec = evt[0] as PropertyChangeRecord;
+    String sourceName = MirrorSystem.getName(rec.name);
+    if (sourceName == "currentCard") {
+      _progress.value = _manager.nbCompletedCards*100/_manager.nbCards;
+      if (_manager.currentCard == null) {
+        _dCard.innerHtml = "<b>Congratulations !</b><br />";
+        return;
+      }
+      _dCard.innerHtml = _manager.currentCard.front;
+      
+      _bKnewIt.disabled = true;
+      _bForgot.disabled = true;
     }
-    _dCard.innerHtml = _manager.currentCard.front;
-    
-    _bKnewIt.disabled = true;
-    _bForgot.disabled = true;
+    else if (sourceName == "name") {
+      _dFoot.text = _manager.name + " (" +_manager.nbCards.toString() + " cards)";
+    }
   }
   
   /**

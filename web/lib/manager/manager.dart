@@ -10,8 +10,9 @@ import '../storage/storagemethod.dart';
 class Manager extends ChangeNotifier {
   Strategy _strategy;
   Deck _deck;
-  Card _currentCard = null;
+  @reflectable Card _currentCard = null;
   StorageMethod _storage = null;
+  @reflectable String _name = "";
   
   Manager(this._deck, this._strategy, this._storage);
   
@@ -24,11 +25,9 @@ class Manager extends ChangeNotifier {
     print(m.toString());
     _strategy.map = m;
     _strategy.init();
+    _name = notifyPropertyChange(#name, _name, _deck.name);
+    deliverChanges();
     nextCard();
-  }
-  
-  void initFromMap(HashMap map) {
-    /* TODO */
   }
   
   /**
@@ -41,8 +40,7 @@ class Manager extends ChangeNotifier {
     Card c = strategy.nextCard;
     if (c == _currentCard)
       _currentCard = new Card("", "", 0); /* Making sure the observer is notified even if _currentCard = c */
-    _currentCard = notifyPropertyChange(null, _currentCard, c); /* #_currentCard not supported by dart2js */
-    deliverChanges();
+    _currentCard = notifyPropertyChange(#currentCard, _currentCard, c);
     return c;
   }
   
@@ -70,11 +68,19 @@ class Manager extends ChangeNotifier {
       return;
     }
     _strategy.fromJsonMap(jsonMap);
+    
+    _name = "";
+    try {
+      _name = notifyPropertyChange(#name, _name, key.split("_")[1]);
+      deliverChanges();
+    } catch (RangeError) {
+      print("Error in name format");
+    }
   }
   
   void store() {
     if (!_strategy.isOver)
-      _storage.storeJson(_deck.name, toJson());
+      _storage.storeJson(_name, toJson());
   }
   
   /**
@@ -82,6 +88,7 @@ class Manager extends ChangeNotifier {
    */
   Deck get deck => _deck;
   set deck(Deck deck) => _deck = deck;
-  int get nbCards => _deck.length;
+  int get nbCards => _strategy.nbCards;
+  String get name => _name;
   
 }

@@ -49,9 +49,6 @@ class Deck implements Iterable {
    */
   addCard(Card c) {
     _cards.add(c);
-    if (_map[c.rating] == null)
-      _map[c.rating] = new List<int>();
-    _map[c.rating].add(_cards.length);
   }
   
   /**

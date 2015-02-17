@@ -11,7 +11,7 @@ class LocalStorage implements StorageMethod {
 
   @override
   void storeJson(String key, String str) {
-    _localStorage[key] = str;
+    _localStorage["flashcards_" + key] = str;
   }
   
   String toString() {

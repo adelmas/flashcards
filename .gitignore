@@ -5,3 +5,6 @@
 build/
 packages
 pubspec.lock
+TODO.txt
+LICENSE
+CHANGELOG.md

@@ -161,6 +161,7 @@ class LeitnerStrategy extends Strategy {
   @override
   Map toJsonMap() {
     Map cardMap = new Map(), jsonMap = new Map();
+    int nbCards = 0;
     
     for (int lvl in map.keys) {
       cardMap['$lvl'] = new List<Card>.from(map[lvl]);
@@ -179,9 +180,13 @@ class LeitnerStrategy extends Strategy {
     
     for (String k in cardMap.keys) {
       jsonMap[k] = new List<Map>();
-      for (Card c in cardMap[k])
+      for (Card c in cardMap[k]) {
         jsonMap[k].add(new Map.from(c.toJsonMap()));
+        nbCards++;
+      }
     }
+    
+    _nbCards = nbCards;
     
     return jsonMap;
   }
@@ -217,4 +222,7 @@ class LeitnerStrategy extends Strategy {
     _currentList = map[0].toList();
     print(map.toString());
   }
+
+  @override
+  int get nbCards => _nbCards;
 }
