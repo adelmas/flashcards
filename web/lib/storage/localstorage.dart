@@ -11,7 +11,7 @@ class LocalStorage implements StorageMethod {
 
   @override
   void storeJson(String key, String str) {
-    _localStorage["flashcards_" + key] = str;
+    _localStorage["flashcards_${key}"] = str;
   }
   
   String toString() {
@@ -19,7 +19,14 @@ class LocalStorage implements StorageMethod {
   }
 
   @override
-  List<String> get saveNamesList => _localStorage.keys.toList();
+  List<String> getSaveNamesList([String filter = ""]) {
+    List<String> list = new List<String>();
+    for (String str in _localStorage.keys) {
+      if (str.startsWith(filter))
+        list.add(str);
+    }
+    return list;
+  }
 
   @override
   Map loadJson(String key) {

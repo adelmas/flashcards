@@ -4,7 +4,7 @@ import '../card/card.dart';
 import 'strategy.dart';
 
 class LeitnerStrategy extends Strategy {
-  int _currentBox = 0, _maxBox = 3;
+  int _currentBox = 0, _maxBox = 2;
   int _nbCards = 0;
   /* Correct answers waiting to be moved up at the end of the round */
   Map<int, List<Card>> _greenMap = new Map<int, List<Card>>();
@@ -118,6 +118,15 @@ class LeitnerStrategy extends Strategy {
       _greenMap[_currentBox].add(c);
     else
       _redMap[_currentBox].add(c);
+  }
+  
+  @override
+  void dontAsk(Card c) {
+    if (c != null) {
+      if (map[_currentBox].contains(c))
+        map[_currentBox].remove(c);
+      map[_maxBox].add(c);
+    }
   }
   
   String toString() {

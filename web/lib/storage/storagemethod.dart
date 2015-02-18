@@ -6,6 +6,6 @@ abstract class StorageMethod {
   Map loadJson(String key);
   String toString();
   
-  List<String> get saveNamesList;
+  List<String> getSaveNamesList([String]);
   
 }

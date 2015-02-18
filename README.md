@@ -21,7 +21,7 @@ Decks have to be put inside a `<div id="flashcards_deck"></div>` element so that
 
 ### Storage
 Uses local storage to save or load a progression.
-Other storage methods can be easily implemented.
+Other storage methods can be easily added.
 
 ### View
 Displayed inside a `<div id="flashcards_view"></div>` element (by default).

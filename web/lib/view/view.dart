@@ -12,14 +12,18 @@ part 'progress.dart';
 part 'expandablelist.dart';
 
 class View {
-  Element _dRoot, _dPanel, _dCard, _dFoot, _dInfos, _dCards, _dLinks, _dProgress, _dLoad;
-  ButtonElement _bNext, _bKnewIt, _bTurnOver, _bForgot, _bRestart;
+  Element _dRoot, _dPanel, _dCard, _dName, _dInfos, _dCards, _dLinks, _dProgress, _dLoad;
+  ButtonElement _bKnewIt, _bTurnOver, _bForgot, _bRestart, _bDontAskAgain;
   Element _aInfos, _aCards, _aSave, _aLoad;
   Progress _progress;
   ExpandableList _lDeck, _lLoad, _lLinks;
   Manager _manager;
   List<Element> _lButtons = new List<Element>();
   int _currentView = 0, _width = 0, _nbCards = 0;
+  NodeValidator _validator = new NodeValidatorBuilder()
+  ..allowHtml5()
+  ..allowTextElements()
+  ..allowElement('a', attributes: ['href']);
   
   View(this._dRoot, this._manager, this._width, [bool responsive=true]) {
     if (_dRoot == null) {
@@ -41,18 +45,21 @@ class View {
     
     /* Buttons */
     Button b;
-    b = new Button(_dPanel, "Next card", "button", "bNext", (evt) => _manager.nextCard(), "icons/new.png");
-    _bNext = b.element;
-    
     b = new Button(_dPanel, "Turn over", "button", "bTurnOver", (evt) {
       if (_manager.currentCard == null)
               return;
       Card c = _manager.currentCard;
-      _dCard.innerHtml = ""+c.front+"<br /><span class=\"back\">" + c.back + "</span>";
+      _dCard.setInnerHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);
       _bKnewIt.disabled = false;
       _bForgot.disabled = false;
     }, "icons/eye.png");
     _bTurnOver = b.element;
+    
+    b = new Button(_dPanel, "Don't ask again", "button", "bDontAskAgain", (evt) {
+      _manager.dontAsk(_manager.currentCard);
+      _manager.nextCard();
+      }, "icons/ok.png");
+    _bDontAskAgain = b.element;
     
     b = new Button(_dPanel, "I knew it", "button", "bKnewIt", (evt) {
       _manager.knewIt(_manager.currentCard, true);
@@ -66,16 +73,16 @@ class View {
     }, "icons/cross.png");
     _bForgot = b.element;
     
-    _lButtons.add(_bNext);
     _lButtons.add(_bTurnOver);
     _lButtons.add(_bKnewIt);
     _lButtons.add(_bForgot);
+    _lButtons.add(_bDontAskAgain);
     
     /* Footer */
-    _dFoot = new DivElement();
-    _dFoot.classes.add("foot");
-    _dPanel.children.add(_dFoot);
-    _dFoot.text = _manager.deck.name + " (" +_manager.nbCards.toString() + " cards)";
+    _dName = new DivElement();
+    _dName.classes.add("foot");
+    _dPanel.children.add(_dName);
+    _dName.text = _manager.deck.name + " (" +_manager.nbCards.toString() + " cards)";
     
     _progress = new Progress(_dPanel, "progressBar", "dProgress");
     
@@ -87,7 +94,11 @@ class View {
     _aLoad.classes.add("infos");
     _aLoad.text = "Load a progression";
     _dLinks.children.add(_aLoad);
-    _aLoad.onClick.listen((el) => _lLoad.trigger());
+    _aLoad.onClick.listen((el) {
+      if (!_lLoad.isExpanded)
+        appendSaveNamesList(_lLoad);
+      _lLoad.trigger();
+      });
     _aSave = new AnchorElement()
     ..href = "#";
     _aSave.classes.add("infos");
@@ -109,21 +120,7 @@ class View {
     
     _lLoad = new ExpandableList(_dPanel, 70, "dInfos");
     _dLoad = _lLoad.element;
-    _manager.saveNamesList.forEach((name) {
-      Element el = new DivElement();
-      el.classes.add("list_thumb");
-      el.text = name;
-      Element link = new AnchorElement()
-      ..classes.add("right")
-      ..href = "#"
-      ..onClick.listen((evt) {
-        _manager.loadJson(name);
-        _manager.nextCard();
-      })
-      ..text = "Load";
-      el.append(link);
-      _lLoad.append(el);
-    });
+    appendSaveNamesList(_lLoad);
     
     _lDeck = new ExpandableList(_dPanel, 70, "dInfos");
     _dCards = _lDeck.element;
@@ -139,11 +136,11 @@ class View {
     
     _lLinks = new ExpandableList(_dPanel, 20, "dInfos");
     _dInfos = _lLinks.element;
-    _dInfos.innerHtml = "<a href=\"github.com/adelmas/\">GitHub</a> <a href=\"contact.php\">Signaler une erreur</a>";
+    _dInfos.setInnerHtml("<a href=\"https://github.com/adelmas/flashcards\">GitHub</a> <a href=\"contact.php\">Signaler une erreur</a>", validator:_validator);
     
     /* Observer */
     _manager.changes.listen((List<ChangeRecord> evt) => update(evt));
-    
+
     /* Responsive */
     if (responsive) {
       if (window.innerWidth > _width)
@@ -153,6 +150,30 @@ class View {
         setVerticalView();
       }
       window.onResize.listen(resize);
+    }
+  }
+  
+  /**
+   * Update the list of save names
+   */
+  void appendSaveNamesList(ExpandableList lLoad) {
+    if (_manager.saveNamesList != null) {
+      lLoad.clear();
+      _manager.saveNamesList.forEach((name) {
+        Element el = new DivElement();
+        el.classes.add("list_thumb");
+        el.text = name;
+        Element link = new AnchorElement()
+        ..classes.add("right")
+        ..href = "#"
+        ..onClick.listen((evt) {
+          _manager.loadJson(name);
+          _manager.nextCard();
+        })
+        ..text = "Load";
+        el.append(link);
+        _lLoad.append(el);
+      });
     }
   }
   
@@ -186,24 +207,25 @@ class View {
   }
   
   /**
-   * Displays current card's front text
+   * Triggered whenever the manager notifies
+   * with notifyPropertyChange() and deliverChanges()
    */
   void update(List<ChangeRecord> evt) {
-    PropertyChangeRecord rec = evt[0] as PropertyChangeRecord;
+    PropertyChangeRecord rec = evt[0];
     String sourceName = MirrorSystem.getName(rec.name);
     if (sourceName == "currentCard") {
       _progress.value = _manager.nbCompletedCards*100/_manager.nbCards;
       if (_manager.currentCard == null) {
-        _dCard.innerHtml = "<b>Congratulations !</b><br />";
+        _dCard.setInnerHtml("<b>Congratulations !</b><br />", validator: _validator);
         return;
       }
-      _dCard.innerHtml = _manager.currentCard.front;
+      _dCard.setInnerHtml(_manager.currentCard.front);
       
       _bKnewIt.disabled = true;
       _bForgot.disabled = true;
     }
     else if (sourceName == "name") {
-      _dFoot.text = _manager.name + " (" +_manager.nbCards.toString() + " cards)";
+      _dName.text = _manager.name + " (" +_manager.nbCards.toString() + " cards)";
     }
   }
   

@@ -11,7 +11,6 @@ import 'dart:convert';
 
 void main() {
   Deck deck = new Deck.fromJsonMap(JSON.decode(querySelector("#flashcards_deck").text));
-
   Manager manager = new Manager(deck, new LeitnerStrategy(), new LocalStorage());
   manager.deck = deck;
   View v = new View(querySelector("#flashcards_view"), manager, 600);

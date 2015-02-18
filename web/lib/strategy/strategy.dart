@@ -7,6 +7,7 @@ abstract class Strategy {
   Map _map = new Map();
   
   void knewIt(Card, bool);
+  void dontAsk(Card);
   void init();
   void reset();
   
@@ -19,5 +20,4 @@ abstract class Strategy {
   
   Map toJsonMap();
   void fromJsonMap(Map);
- 
 }

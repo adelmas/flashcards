@@ -1,6 +1,5 @@
 library manager;
 import 'dart:convert';
-import 'dart:collection';
 import 'package:observe/observe.dart';
 import '../strategy/strategy.dart';
 import '../deck/deck.dart';
@@ -20,7 +19,7 @@ class Manager extends ChangeNotifier {
    * Inits components
    */
   void init() {
-    HashMap<int, List<Card>> m = new HashMap<int, List<Card>>();
+    Map<int, List<Card>> m = new Map<int, List<Card>>();
     m[0] = new List<Card>.from(_deck.cards);
     print(m.toString());
     _strategy.map = m;
@@ -41,6 +40,7 @@ class Manager extends ChangeNotifier {
     if (c == _currentCard)
       _currentCard = new Card("", "", 0); /* Making sure the observer is notified even if _currentCard = c */
     _currentCard = notifyPropertyChange(#currentCard, _currentCard, c);
+    deliverChanges();
     return c;
   }
   
@@ -52,6 +52,11 @@ class Manager extends ChangeNotifier {
   
   Card get currentCard => _currentCard;
   
+  void dontAsk(Card c) {
+    if (!_strategy.isOver)
+      _strategy.dontAsk(c);
+  }
+  
   /**
    * Save / Load
    */
@@ -60,7 +65,7 @@ class Manager extends ChangeNotifier {
   }
   
   StorageMethod get storage => _storage;
-  List<String> get saveNamesList => _storage.saveNamesList;
+  List<String> get saveNamesList => _storage.getSaveNamesList("flashcards_");
   void loadJson(String key) {
     Map jsonMap = _storage.loadJson(key);
     if (jsonMap == null) {

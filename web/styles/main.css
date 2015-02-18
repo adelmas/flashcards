@@ -19,7 +19,7 @@ html, body {
   border: 1px solid #CCCCCC;
   border-radius: 3px;
   padding: 10px;
-  max-width: 415px;
+  max-width: 405px;
   padding-bottom: 5px;
 }
 .card {
@@ -130,28 +130,35 @@ img {
 a {
   text-decoration: none;
   vertical-align: middle;
+  color: #0050FF;
 }
 a:hover {
   text-decoration: underline; 
 }
+
+a:visited {
+  color: #0050FF;
+}
+
 .infos, .right {
   color: #7F7F7F;
 }
-.infos:hover, .right:hover {
+.infos:hover {
   text-decoration: none;
   color: black;
 }
 .dLinks a {
+  color: #7F7F7F;
   margin-right: 10px;
 }
 .dLinks a:last-child {
   margin-right: 0px;
 }
- .dInfos a {
+.dInfos a {
   padding-left: 5px;
   padding-right: 5px;
   border-right: 1px solid #7F7F7F;
  }
- .dInfos a:last-child {
+.dInfos a:last-child {
   border-right: none;
  }
