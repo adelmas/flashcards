@@ -20,6 +20,8 @@ class Manager extends ChangeNotifier {
    */
   void init() {
     Map<int, List<Card>> m = new Map<int, List<Card>>();
+    if (_deck == null)
+      return;
     m[0] = new List<Card>.from(_deck.cards);
     print(m.toString());
     _strategy.map = m;

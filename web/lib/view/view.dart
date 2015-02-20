@@ -82,7 +82,7 @@ class View {
     _dName = new DivElement();
     _dName.classes.add("foot");
     _dPanel.children.add(_dName);
-    _dName.text = _manager.deck.name + " (" +_manager.nbCards.toString() + " cards)";
+    _dName.text = _manager.name + " (" +_manager.nbCards.toString() + " cards)";
     
     _progress = new Progress(_dPanel, "progressBar", "dProgress");
     
@@ -173,6 +173,8 @@ class View {
    * Displays the cards in current deck.
    */
   void appendDeck(ExpandableList lDeck) {
+    if (_manager.deck == null)
+      return;
     var it = _manager.deck.iterator;
     _lDeck.clear();
     while (it.moveNext()) {
@@ -233,7 +235,7 @@ class View {
       _bForgot.disabled = true;
     }
     else if (sourceName == "name") {
-      _dName.text = _manager.name + " (" +_manager.nbCards.toString() + " cards)";
+      _dName.text = _manager.name + " (" + _manager.nbCards.toString() + " cards)";
     }
     else if (sourceName == "deck") {
       appendDeck(_lDeck);

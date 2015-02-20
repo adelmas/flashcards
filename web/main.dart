@@ -10,7 +10,13 @@ import 'dart:html';
 import 'dart:convert';
 
 void main() {
-  Deck deck = new Deck.fromJsonMap(JSON.decode(querySelector("#flashcards_deck").text));
+  Deck deck = null;
+  try {
+    deck = new Deck.fromJsonMap(JSON.decode(querySelector("#flashcards_deck").text));
+  } catch (FormatException) {
+    print("Error : Bad format in Json deck");
+  }
+  
   Manager manager = new Manager(deck, new LeitnerStrategy(), new LocalStorage());
   manager.deck = deck;
   View v = new View(querySelector("#flashcards_view"), manager, 600);

@@ -214,6 +214,7 @@ class LeitnerStrategy extends Strategy {
     initMaps();
     map[0].clear();
     _currentBox = 0;
+    _nbCards = 0;
 
     for (String k in m.keys) {
       int lvl = int.parse(k);
@@ -223,6 +224,7 @@ class LeitnerStrategy extends Strategy {
         if (map[lvl] == null)
           map[lvl] = new List<Card>();
         map[lvl].add(c);
+        _nbCards++;
       });
       nbBoxes++;
     }
