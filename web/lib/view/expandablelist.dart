@@ -18,7 +18,10 @@ class ExpandableList implements Iterable {
   
   void trigger() {
     if (_div.style.height == "0px") {
-      _div.style.height = _height.toString() + "px";
+      int actualHeight = _div.scrollHeight, h = _height;
+      if (actualHeight < _height)
+        h = actualHeight;
+      _div.style.height = h.toString() + "px";
       _div.style.overflow = "auto";
       _expanded = true;
     }

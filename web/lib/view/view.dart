@@ -49,9 +49,9 @@ class View {
       if (_manager.currentCard == null)
               return;
       Card c = _manager.currentCard;
-      _dCard.setInnerHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);
-      _bKnewIt.disabled = false;
-      _bForgot.disabled = false;
+      _dCard.setInnerHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);     
+      _bKnewIt.attributes.remove("disabled");
+      _bForgot.attributes.remove("disabled");
     }, "icons/eye.png");
     _bTurnOver = b.element;
     
@@ -124,15 +124,7 @@ class View {
     
     _lDeck = new ExpandableList(_dPanel, 70, "dInfos");
     _dCards = _lDeck.element;
-    var it = _manager.deck.iterator;
-    while (it.moveNext()) {
-      Card c = it.current;
-      Element el = new DivElement();
-      el.classes.add("list_thumb");
-      el.text = c.front;
-      _lDeck.append(el);
-      _nbCards++;
-    }
+    appendDeck(_lDeck);
     
     _lLinks = new ExpandableList(_dPanel, 20, "dInfos");
     _dInfos = _lLinks.element;
@@ -154,7 +146,7 @@ class View {
   }
   
   /**
-   * Update the list of save names
+   * Updates the list of save names
    */
   void appendSaveNamesList(ExpandableList lLoad) {
     if (_manager.saveNamesList != null) {
@@ -178,7 +170,23 @@ class View {
   }
   
   /**
-   * Displays or hides infos
+   * Displays the cards in current deck.
+   */
+  void appendDeck(ExpandableList lDeck) {
+    var it = _manager.deck.iterator;
+    _lDeck.clear();
+    while (it.moveNext()) {
+      Card c = it.current;
+      Element el = new DivElement();
+      el.classes.add("list_thumb");
+      el.text = c.front;
+      _lDeck.append(el);
+      _nbCards++;
+    }
+  }
+  
+  /**
+   * Displays or hides infos div
    */
   void showInfos(Event e) {
     if (_dInfos.style.height == "0px") {
@@ -226,6 +234,9 @@ class View {
     }
     else if (sourceName == "name") {
       _dName.text = _manager.name + " (" +_manager.nbCards.toString() + " cards)";
+    }
+    else if (sourceName == "deck") {
+      appendDeck(_lDeck);
     }
   }
   

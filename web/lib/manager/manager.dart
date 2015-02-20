@@ -81,6 +81,12 @@ class Manager extends ChangeNotifier {
     } catch (RangeError) {
       print("Error in name format");
     }
+    
+    /* Rebuilding deck */
+    List<Card> lCards = new List<Card>();
+    _strategy.map.values.forEach((List<Card>el) => lCards.addAll(el));
+    _deck = notifyPropertyChange(#deck, _deck, new Deck.fromList(_name, lCards));
+    deliverChanges();
   }
   
   void store() {

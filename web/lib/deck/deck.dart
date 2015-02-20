@@ -1,17 +1,17 @@
 library deck;
-import 'dart:collection';
 import '../card/card.dart';
 part 'deckiterator.dart';
 
 class Deck implements Iterable {
   List<Card> _cards = new List<Card>();
-  HashMap<int, List<int>> _map = new HashMap<int, List<int>>();
   String _name = "";
   
   /**
    * Constructors
    */
   Deck(this._name);
+  
+  Deck.fromList(this._name, this._cards);
   
   Deck.fromJsonMap(Map jsonData) {
     if (!jsonData.containsKey("cards"))
@@ -49,6 +49,10 @@ class Deck implements Iterable {
    */
   addCard(Card c) {
     _cards.add(c);
+  }
+  
+  void clear() {
+    _cards.clear();
   }
   
   /**
