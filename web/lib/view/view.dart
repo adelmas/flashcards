@@ -104,7 +104,10 @@ class View {
     _aSave.classes.add("infos");
     _aSave.text = "Save";
     _dLinks.children.add(_aSave);
-    _aSave.onClick.listen((evt) => _manager.store());
+    _aSave.onClick.listen((evt) { 
+      _manager.store();
+      appendSaveNamesList(_lLoad);
+    });
     _aCards = new AnchorElement()
     ..href = "#";
     _aCards.classes.add("infos");

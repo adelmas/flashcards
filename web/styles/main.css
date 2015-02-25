@@ -19,7 +19,7 @@ html, body {
   border: 1px solid #CCCCCC;
   border-radius: 3px;
   padding: 10px;
-  max-width: 405px;
+  max-width: 430px;
   padding-bottom: 5px;
 }
 .card {
@@ -119,6 +119,10 @@ html, body {
 }
 .button:hover {
   border: 1px solid #909090;
+}
+.button[disabled] {
+  background-color: #F6F6F6;
+  color: #606060;
 }
 
 img {
