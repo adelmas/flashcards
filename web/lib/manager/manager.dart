@@ -50,6 +50,10 @@ class Manager extends ChangeNotifier {
     _strategy.knewIt(c, b);
   }
   
+  void reset() {
+    init();
+  }
+  
   int get nbCompletedCards => _strategy.nbCompletedCards;
   
   Card get currentCard => _currentCard;

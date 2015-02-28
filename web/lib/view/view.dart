@@ -13,8 +13,8 @@ part 'expandablelist.dart';
 
 class View {
   Element _dRoot, _dPanel, _dCard, _dName, _dInfos, _dCards, _dLinks, _dProgress, _dLoad;
-  ButtonElement _bKnewIt, _bTurnOver, _bForgot, _bRestart, _bDontAskAgain;
-  Element _aInfos, _aCards, _aSave, _aLoad;
+  ButtonElement _bKnewIt, _bTurnOver, _bForgot, _bDontAskAgain;
+  Element _aInfos, _aCards, _aSave, _aLoad, _aRestart;
   Progress _progress;
   ExpandableList _lDeck, _lLoad, _lLinks;
   Manager _manager;
@@ -80,9 +80,21 @@ class View {
     
     /* Footer */
     _dName = new DivElement();
+    _aRestart = new AnchorElement()
+    ..href="#"
+    ..setAttribute("title", "Restart")
+    ..style.display = "inline-block"
+    ..style.height = "16px"
+    ..style.paddingLeft = "20px"
+    ..style.backgroundRepeat = "no-repeat"
+    ..style.backgroundImage = "url(icons/restart.png)"
+    ..onClick.listen((e) {
+      _manager.reset();
+    });
+    _dName.children.add(_aRestart);
     _dName.classes.add("foot");
     _dPanel.children.add(_dName);
-    _dName.text = _manager.name + " (" +_manager.nbCards.toString() + " cards)";
+    _dName.appendText(_manager.name + " (" +_manager.nbCards.toString() + " cards)");
     
     _progress = new Progress(_dPanel, "progressBar", "dProgress");
     
@@ -238,7 +250,8 @@ class View {
       _bForgot.disabled = true;
     }
     else if (sourceName == "name") {
-      _dName.text = _manager.name + " (" + _manager.nbCards.toString() + " cards)";
+      _dName.childNodes.last.remove();
+      _dName.appendText(_manager.name + " (" + _manager.nbCards.toString() + " cards)");
     }
     else if (sourceName == "deck") {
       appendDeck(_lDeck);

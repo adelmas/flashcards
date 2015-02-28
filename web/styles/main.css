@@ -35,6 +35,7 @@ html, body {
 }
 .foot {
   font-size: 13px;
+  vertical-align: middle;
 }
 .dInfos, .dCards {
   color: #7F7F7F;

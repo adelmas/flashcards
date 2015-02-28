@@ -37,16 +37,17 @@ class LeitnerStrategy extends Strategy {
    * Moves all the cards down to box 0 and clears the maps.
    */
   void reset() {
+    _currentList.clear();
     for (int i=1; i<=_maxBox; i++) {
-      for (Card c in map[i]) {
+      for (int j=0; j<map[i].length; j++) {
+        Card c = map[i].elementAt(j);
         map[i].remove(c);
         map[0].add(c);
       }
       _greenMap[i-1].clear();
       _redMap[i-1].clear();
     }
-    _greenMap[0].clear();
-    _redMap[0].clear();
+    _currentBox = 0;
   }
 
   /**
