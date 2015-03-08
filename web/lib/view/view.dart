@@ -20,6 +20,7 @@ class View {
   Manager _manager;
   List<Element> _lButtons = new List<Element>();
   int _currentView = 0, _width = 0, _nbCards = 0;
+  String idRoot = "";
   NodeValidator _validator = new NodeValidatorBuilder()
   ..allowHtml5()
   ..allowTextElements()
@@ -34,6 +35,8 @@ class View {
       print("manager = null");
       return;
     }
+    
+    idRoot = _dRoot.getAttribute("id");
     
     /* Divs */
     _dPanel = new DivElement();
@@ -81,7 +84,7 @@ class View {
     /* Footer */
     _dName = new DivElement();
     _aRestart = new AnchorElement()
-    ..href="#"
+    ..href="#${idRoot}"
     ..setAttribute("title", "Restart")
     ..style.display = "inline-block"
     ..style.height = "16px"
@@ -102,7 +105,7 @@ class View {
     _dLinks.classes.add("dLinks");
     _dPanel.children.add(_dLinks);
     _aLoad = new AnchorElement()
-    ..href = "#";
+    ..href = "#${idRoot}";
     _aLoad.classes.add("infos");
     _aLoad.text = "Load a progression";
     _dLinks.children.add(_aLoad);
@@ -112,7 +115,7 @@ class View {
       _lLoad.trigger();
       });
     _aSave = new AnchorElement()
-    ..href = "#";
+    ..href = "#${idRoot}";
     _aSave.classes.add("infos");
     _aSave.text = "Save";
     _dLinks.children.add(_aSave);
@@ -121,13 +124,13 @@ class View {
       appendSaveNamesList(_lLoad);
     });
     _aCards = new AnchorElement()
-    ..href = "#";
+    ..href = "#${idRoot}";
     _aCards.classes.add("infos");
     _aCards.text = "Show the deck";
     _dLinks.children.add(_aCards);
     _aCards.onClick.listen((evt) => _lDeck.trigger());
     _aInfos = new AnchorElement()
-    ..href = "#";
+    ..href = "#${idRoot}";
     _aInfos.classes.add("infos");
     _aInfos.text = "Infos";
     _dLinks.children.add(_aInfos);
@@ -172,7 +175,7 @@ class View {
         el.text = name;
         Element link = new AnchorElement()
         ..classes.add("right")
-        ..href = "#"
+        ..href = "#${idRoot}"
         ..onClick.listen((evt) {
           _manager.loadJson(name);
           _manager.nextCard();
