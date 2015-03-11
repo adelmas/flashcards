@@ -13,7 +13,7 @@ html, body {
   display: none;
 }
 
-.panel {
+#flashcards_view .panel {
   margin: 10px;
   background-color: #F0F0F0;
   border: 1px solid #CCCCCC;
@@ -22,7 +22,7 @@ html, body {
   max-width: 435px;
   padding-bottom: 5px;
 }
-.card {
+#flashcards_view .card {
   background-color: #FFFFFF;
   border: 1px solid #CCCCCC;
   padding: 10px;
@@ -30,35 +30,35 @@ html, body {
   min-height: 50px;
   font-size: 20px;
 }
-.back {
+#flashcards_view .back {
   color: #6B8E23;
 }
-.foot {
+#flashcards_view .foot {
   font-size: 13px;
   vertical-align: middle;
 }
-.dInfos, .dCards {
+#flashcards_view .dInfos, .dCards {
   color: #7F7F7F;
   transition: height 0.5s ease;
   overflow: hidden;
   font-size: 12px;
 }
-.dLinks {
+#flashcards_view .dLinks {
   text-align: right;
   font-size: 12px;
 }
-.panel .list_thumb {
+#flashcards_view .panel .list_thumb {
   border-bottom: 1px solid #CFCFCF;
 }
-.panel .list_thumb:last-child {
+#flashcards_view .panel .list_thumb:last-child {
   border: 0;
 }
 
-.list_thumb .right {
+#flashcards_view .list_thumb .right {
   float: right;
 }
 
-#dProgress {
+#flashcards_view #dProgress {
   height: 10px;
   background-color: #CCCCCC;
   margin-top: 5px;
@@ -67,7 +67,7 @@ html, body {
   border: 1px solid #AAAAAA;
   box-sizing:border-box;
 }
-.progressBar {
+#flashcards_view .progressBar {
   height: 100%;
   display: block;
   border-radius: 5px;
@@ -101,7 +101,7 @@ html, body {
 }
 
 /* Buttons */
-.button {
+#flashcards_view .button {
   display: inline-block;
   background-color: #FFFFFF;
   border: 1px solid #C0C0C0;
@@ -115,55 +115,55 @@ html, body {
   cursor: pointer;
   font-size: 13px;
 }
-.button:active {
+#flashcards_view .button:active {
   background-color: #F0F0F0;
 }
-.button:hover {
+#flashcards_view .button:hover {
   border: 1px solid #909090;
 }
-.button[disabled] {
+#flashcards_view .button[disabled] {
   background-color: #F6F6F6;
   color: #606060;
 }
 
-img {
+#flashcards_view img {
   vertical-align: middle;
   margin-right: 5px;
 }
 
 /* Links */
-a {
+#flashcards_view a {
   text-decoration: none;
   vertical-align: middle;
   color: #0050FF;
 }
-a:hover {
+#flashcards_view a:hover {
   text-decoration: underline; 
 }
 
-a:visited {
+#flashcards_view a:visited {
   color: #0050FF;
 }
 
-.infos, .right {
+#flashcards_view .infos, .right {
   color: #7F7F7F;
 }
-.infos:hover {
+#flashcards_view .infos:hover {
   text-decoration: none;
   color: black;
 }
-.dLinks a {
+#flashcards_view .dLinks a {
   color: #7F7F7F;
   margin-right: 10px;
 }
-.dLinks a:last-child {
+#flashcards_view .dLinks a:last-child {
   margin-right: 0px;
 }
-.dInfos a {
+#flashcards_view .dInfos a {
   padding-left: 5px;
   padding-right: 5px;
   border-right: 1px solid #7F7F7F;
  }
-.dInfos a:last-child {
+#flashcards_view .dInfos a:last-child {
   border-right: none;
  }

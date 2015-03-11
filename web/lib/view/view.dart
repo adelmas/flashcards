@@ -20,7 +20,7 @@ class View {
   Manager _manager;
   List<Element> _lButtons = new List<Element>();
   int _currentView = 0, _width = 0, _nbCards = 0;
-  String idRoot = "";
+  String _anchorRoot = "", _iconPrefix = "flashcards/";
   NodeValidator _validator = new NodeValidatorBuilder()
   ..allowHtml5()
   ..allowTextElements()
@@ -36,7 +36,8 @@ class View {
       return;
     }
     
-    idRoot = _dRoot.getAttribute("id");
+    //_idRoot = _dRoot.getAttribute("id");
+    _anchorRoot = "";
     
     /* Divs */
     _dPanel = new DivElement();
@@ -55,25 +56,25 @@ class View {
       _dCard.setInnerHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);     
       _bKnewIt.attributes.remove("disabled");
       _bForgot.attributes.remove("disabled");
-    }, "icons/eye.png");
+    }, "${_iconPrefix}icons/eye.png");
     _bTurnOver = b.element;
     
     b = new Button(_dPanel, "Don't ask again", "button", "bDontAskAgain", (evt) {
       _manager.dontAsk(_manager.currentCard);
       _manager.nextCard();
-      }, "icons/ok.png");
+      }, "${_iconPrefix}icons/ok.png");
     _bDontAskAgain = b.element;
     
     b = new Button(_dPanel, "I knew it", "button", "bKnewIt", (evt) {
       _manager.knewIt(_manager.currentCard, true);
       _manager.nextCard();
-    }, "icons/check.png");
+    }, "${_iconPrefix}icons/check.png");
     _bKnewIt = b.element;
     
     b = new Button(_dPanel, "I forgot", "button", "bForgot", (evt) {
       _manager.knewIt(_manager.currentCard, false);
       _manager.nextCard();
-    }, "icons/cross.png");
+    }, "${_iconPrefix}icons/cross.png");
     _bForgot = b.element;
     
     _lButtons.add(_bTurnOver);
@@ -84,13 +85,13 @@ class View {
     /* Footer */
     _dName = new DivElement();
     _aRestart = new AnchorElement()
-    ..href="#${idRoot}"
+    ..href="#${_anchorRoot}"
     ..setAttribute("title", "Restart")
     ..style.display = "inline-block"
     ..style.height = "16px"
     ..style.paddingLeft = "20px"
     ..style.backgroundRepeat = "no-repeat"
-    ..style.backgroundImage = "url(icons/restart.png)"
+    ..style.backgroundImage = "url(${_iconPrefix}icons/restart.png)"
     ..onClick.listen((e) {
       _manager.reset();
     });
@@ -105,7 +106,7 @@ class View {
     _dLinks.classes.add("dLinks");
     _dPanel.children.add(_dLinks);
     _aLoad = new AnchorElement()
-    ..href = "#${idRoot}";
+    ..href = "#${_anchorRoot}";
     _aLoad.classes.add("infos");
     _aLoad.text = "Load a progression";
     _dLinks.children.add(_aLoad);
@@ -115,7 +116,7 @@ class View {
       _lLoad.trigger();
       });
     _aSave = new AnchorElement()
-    ..href = "#${idRoot}";
+    ..href = "#${_anchorRoot}";
     _aSave.classes.add("infos");
     _aSave.text = "Save";
     _dLinks.children.add(_aSave);
@@ -124,13 +125,13 @@ class View {
       appendSaveNamesList(_lLoad);
     });
     _aCards = new AnchorElement()
-    ..href = "#${idRoot}";
+    ..href = "#${_anchorRoot}";
     _aCards.classes.add("infos");
     _aCards.text = "Show the deck";
     _dLinks.children.add(_aCards);
     _aCards.onClick.listen((evt) => _lDeck.trigger());
     _aInfos = new AnchorElement()
-    ..href = "#${idRoot}";
+    ..href = "#${_anchorRoot}";
     _aInfos.classes.add("infos");
     _aInfos.text = "Infos";
     _dLinks.children.add(_aInfos);
@@ -175,7 +176,7 @@ class View {
         el.text = name;
         Element link = new AnchorElement()
         ..classes.add("right")
-        ..href = "#${idRoot}"
+        ..href = "#${_anchorRoot}"
         ..onClick.listen((evt) {
           _manager.loadJson(name);
           _manager.nextCard();
@@ -268,6 +269,7 @@ class View {
     _lButtons.forEach((el) {
       el.style.width = "100%";
       el.style.display = "block";
+      el.style.height = "35px";
     });
   }
 
@@ -278,6 +280,7 @@ class View {
     _lButtons.forEach((el) {
       el.style.removeProperty("width");
       el.style.removeProperty("display");
+      el.style.removeProperty("height");
     });
   }
   

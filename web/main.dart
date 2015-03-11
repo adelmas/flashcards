@@ -19,7 +19,7 @@ void main() {
   
   Manager manager = new Manager(deck, new LeitnerStrategy(), new LocalStorage());
   manager.deck = deck;
-  View v = new View(querySelector("#flashcards_view"), manager, 600);
+  View v = new View(querySelector("#flashcards_view"), manager, 1024);
   manager.init();
 
   return;
