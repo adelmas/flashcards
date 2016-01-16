@@ -20,7 +20,7 @@ class View {
   Manager _manager;
   List<Element> _lButtons = new List<Element>();
   int _currentView = 0, _width = 0, _nbCards = 0;
-  String _anchorRoot = "", _iconPrefix = "flashcards/";
+  String _anchorRoot = "", _iconPrefix = "";//flashcards/";
   NodeValidator _validator = new NodeValidatorBuilder()
   ..allowHtml5()
   ..allowTextElements()
@@ -38,11 +38,29 @@ class View {
     
     //_idRoot = _dRoot.getAttribute("id");
     _anchorRoot = "";
+
+    /* Title */
+    _dName = new DivElement();
+    _aRestart = new AnchorElement()
+    ..href="#${_anchorRoot}"
+    ..setAttribute("title", "Restart")
+    ..style.display = "inline-block"
+    ..style.height = "16px"
+    ..style.paddingLeft = "20px"
+    ..style.backgroundRepeat = "no-repeat"
+    ..style.backgroundImage = "url(${_iconPrefix}icons/restart.png)"
+    ..onClick.listen((e) {
+      _manager.reset();
+    });
+    _dName.children.add(_aRestart);
+    _dName.classes.add("title");
+    _dName.appendText(_manager.name + " (" +_manager.nbCards.toString() + " cards)");
     
     /* Divs */
     _dPanel = new DivElement();
     _dPanel.classes.add("panel");
     _dRoot.children.add(_dPanel);
+    _dPanel.children.add(_dName);
     _dCard = new DivElement();
     _dCard.classes.add("card");
     _dPanel.children.add(_dCard);
@@ -83,23 +101,6 @@ class View {
     _lButtons.add(_bDontAskAgain);
     
     /* Footer */
-    _dName = new DivElement();
-    _aRestart = new AnchorElement()
-    ..href="#${_anchorRoot}"
-    ..setAttribute("title", "Restart")
-    ..style.display = "inline-block"
-    ..style.height = "16px"
-    ..style.paddingLeft = "20px"
-    ..style.backgroundRepeat = "no-repeat"
-    ..style.backgroundImage = "url(${_iconPrefix}icons/restart.png)"
-    ..onClick.listen((e) {
-      _manager.reset();
-    });
-    _dName.children.add(_aRestart);
-    _dName.classes.add("foot");
-    _dPanel.children.add(_dName);
-    _dName.appendText(_manager.name + " (" +_manager.nbCards.toString() + " cards)");
-    
     _progress = new Progress(_dPanel, "progressBar", "dProgress");
     
     _dLinks = new DivElement();

@@ -33,9 +33,10 @@ html, body {
 #flashcards_view .back {
   color: #6B8E23;
 }
-#flashcards_view .foot {
-  font-size: 13px;
+#flashcards_view .title {
+  font-size: 15px;
   vertical-align: middle;
+  margin-bottom: 5px;
 }
 #flashcards_view .dInfos, .dCards {
   color: #7F7F7F;
