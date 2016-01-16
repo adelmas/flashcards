@@ -73,7 +73,8 @@ html, body {
   display: block;
   border-radius: 5px;
   background-color: #0088FF;
-  background: /* http://www.css3create.com/Barre-de-progression-avec-l-element-HTML5-progress */
+  /* http://www.css3create.com/Barre-de-progression-avec-l-element-HTML5-progress */
+  background: 
       -moz-repeating-linear-gradient(
         45deg, 
         rgba(255,255,255,.2) 0,

@@ -20,7 +20,7 @@ class View {
   Manager _manager;
   List<Element> _lButtons = new List<Element>();
   int _currentView = 0, _width = 0, _nbCards = 0;
-  String _anchorRoot = "", _iconPrefix = "";//flashcards/";
+  String _anchorRoot = "", _iconPrefix = "flashcards/";
   NodeValidator _validator = new NodeValidatorBuilder()
   ..allowHtml5()
   ..allowTextElements()
@@ -71,7 +71,7 @@ class View {
       if (_manager.currentCard == null)
               return;
       Card c = _manager.currentCard;
-      _dCard.setInnerHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);     
+      _dCard.appendHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);     
       _bKnewIt.attributes.remove("disabled");
       _bForgot.attributes.remove("disabled");
     }, "${_iconPrefix}icons/eye.png");
@@ -148,8 +148,13 @@ class View {
     
     _lLinks = new ExpandableList(_dPanel, 20, "dInfos");
     _dInfos = _lLinks.element;
-    _dInfos.setInnerHtml("<a href=\"https://github.com/adelmas/flashcards\">GitHub</a> <a href=\"contact.php\">Signaler une erreur</a>", validator:_validator);
-    
+    _dInfos.children.add(new AnchorElement()
+      ..href = "https://github.com/adelmas/flashcards"
+      ..text = "Github");
+    _dInfos.children.add(new AnchorElement()
+      ..href="contact.php"
+      ..text = "Signaler une erreur");
+
     /* Observer */
     _manager.changes.listen((List<ChangeRecord> evt) => update(evt));
 
