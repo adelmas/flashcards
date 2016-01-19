@@ -71,7 +71,7 @@ class View {
       if (_manager.currentCard == null)
               return;
       Card c = _manager.currentCard;
-      _dCard.appendHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);     
+      _dCard.setInnerHtml("${c.front}<br /><span class=\"back\">${c.back}</span>", validator: _validator);     
       _bKnewIt.attributes.remove("disabled");
       _bForgot.attributes.remove("disabled");
     }, "${_iconPrefix}icons/eye.png");
