@@ -3,13 +3,16 @@ Flashcard app
 
 A Dart implementation of a spaced repetition flashcard app.
 
+### Demo
+http://adelmas.com/projects/flashcards/
+
 ### Algorithm
 Based on the Leitner algorithm (http://en.wikipedia.org/wiki/Leitner_system).
 
 The Strategy pattern makes it easy to change the spaced repartition strategy, feel free to implement other algorithms.
 
 ### Loading decks
-Decks have to be put inside a `<div id="flashcards_deck"></div>` element so that the app can load them, in a Json format as follows :
+Decks have to be put inside a `<div id="flashcards_deck"></div>` element so that the app can load them, in the following Json format :
 ```
 {
   "name":"deck's name",
